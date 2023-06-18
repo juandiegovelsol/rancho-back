@@ -13,3 +13,30 @@ export const createDish = async (req, res) => {
     res.status(500).json(error);
   }
 };
+
+export const getMenu = async (req, res) => {
+  try {
+    const database = new Database();
+    await database.connect();
+    const data = await Menu.find();
+    await database.disconnect();
+    if (data.length) return res.status(200).json(data);
+    return res.status(204).send();
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
+
+export const updateDish = async (req, res) => {
+  try {
+    const database = new Database();
+    await database.connect();
+    let item = req.body.items[0];
+    item = Object.assign(item, req.body);
+    const updatedDish = await item.save();
+    await database.disconnect();
+    res.json(updatedDish);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
