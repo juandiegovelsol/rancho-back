@@ -17,3 +17,14 @@ export const findUser = async (req, res, next) => {
     res.status(500).json(error);
   }
 };
+
+export const isAdmin = async (req, res, next) => {
+  try {
+    const { items } = req.body;
+    const isAdmin = items[0].admin;
+    if (!isAdmin) return res.status(401).send();
+    next();
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
