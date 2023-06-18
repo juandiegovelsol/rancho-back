@@ -41,3 +41,11 @@ export const updateOneUser = async (req, res) => {
     res.status(500).json(error);
   }
 };
+
+export const getUser = async (req, res) => {
+  try {
+    res.json(req.body.items[0]);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
