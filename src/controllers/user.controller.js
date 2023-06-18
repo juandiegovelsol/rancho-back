@@ -49,3 +49,19 @@ export const getUser = async (req, res) => {
     res.status(500).json(error);
   }
 };
+
+export const changeRole = async (req, res) => {
+  try {
+    const database = new Database();
+    await database.connect();
+    let user = req.body.user[0];
+    user = user.admin
+      ? Object.assign(user, { admin: false })
+      : Object.assign(user, { admin: true });
+    const updatedUser = await user.save();
+    await database.disconnect();
+    res.json(updatedUser);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};

@@ -28,3 +28,20 @@ export const isAdmin = async (req, res, next) => {
     res.status(500).json(error);
   }
 };
+
+export const findUserAux = async (req, res, next) => {
+  try {
+    const database = new Database();
+    await database.connect();
+    const { key1, value1 } = req.params;
+    let query = {};
+    query[key1] = value1;
+    const user = await User.find(query);
+    await database.disconnect();
+    if (!user.length) return res.status(204).send();
+    req.body.user = user;
+    next();
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
