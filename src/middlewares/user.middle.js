@@ -45,3 +45,15 @@ export const findUserAux = async (req, res, next) => {
     res.status(500).json(error);
   }
 };
+
+export const isLogged = async (req, res, next) => {
+  try {
+    const { items } = req.body;
+    const isLogged = items[0].status;
+    if (!isLogged)
+      return res.status(401).json({ message: "You are not logged in yet" });
+    next();
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
