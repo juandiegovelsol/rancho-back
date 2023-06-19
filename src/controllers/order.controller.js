@@ -40,3 +40,11 @@ export const getAllOrder = async (req, res) => {
     res.status(500).json(error);
   }
 };
+
+export const getOneOrder = async (req, res) => {
+  try {
+    res.json(req.body.orders[0]);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};

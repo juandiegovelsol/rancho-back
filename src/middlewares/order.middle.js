@@ -10,8 +10,12 @@ export const findOrder = async (req, res, next) => {
     query[key] = value;
     const orders = await Order.find(query)
       .populate({
-        path: "user",
-        select: "email",
+        path: "user_id",
+        select: "name",
+      })
+      .populate({
+        path: "order",
+        populate: [{ path: "id", select: "title" }],
       })
       .exec();
     await database.disconnect();
