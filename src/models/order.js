@@ -1,5 +1,14 @@
 import mongoose, { Schema } from "mongoose";
 
+const OrderSubSchema = new Schema({
+  id: { type: Schema.Types.ObjectId, ref: "Menu", require: true },
+  quantity: {
+    type: Number,
+    require: true,
+    default: 1,
+  },
+});
+
 const OrderSchema = new Schema({
   user_id: {
     type: Schema.Types.ObjectId,
@@ -10,10 +19,7 @@ const OrderSchema = new Schema({
     require: true,
     default: Date.now(),
   },
-  order: {
-    type: Schema.Types.ObjectId,
-    ref: "Menu",
-  },
+  order: [OrderSubSchema],
   total: {
     type: Number,
     require: true,

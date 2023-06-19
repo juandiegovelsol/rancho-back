@@ -13,6 +13,7 @@ export const createOrder = async (req, res) => {
     res.status(201).json(item);
     await database.disconnect();
   } catch (error) {
+    console.log(error);
     res.status(500).json(error);
   }
 };
@@ -28,7 +29,7 @@ export const getAllOrder = async (req, res) => {
       })
       .populate({
         path: "order",
-        select: "title",
+        populate: [{ path: "id", select: "title" }],
       })
       .exec();
     await database.disconnect();
