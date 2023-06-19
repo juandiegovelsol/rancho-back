@@ -40,3 +40,19 @@ export const updateDish = async (req, res) => {
     res.status(500).json(error);
   }
 };
+
+export const deleteDish = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const database = new Database();
+    await database.connect();
+    const deletedDish = await Menu.findByIdAndRemove(id);
+    await database.disconnect();
+    if (!deletedDish.length)
+      return res.status(204).json({ message: "Dish not found" });
+    res.status(200).json(deletedDish);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json(error);
+  }
+};
