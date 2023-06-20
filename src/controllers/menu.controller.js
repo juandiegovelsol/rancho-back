@@ -1,13 +1,12 @@
-import User from "../models/user.js";
+import Menu from "../models/menu.js";
 import Database from "../config/database.js";
 
-export const createUser = async (req, res) => {
+export const createDish = async (req, res) => {
   try {
     const database = new Database();
     await database.connect();
-    const item = new User(req.body);
+    const item = new Menu(req.body);
     await item.save();
-
     res.status(201).json(item);
     await database.disconnect();
   } catch (error) {
@@ -15,11 +14,11 @@ export const createUser = async (req, res) => {
   }
 };
 
-export const getAllUser = async (req, res) => {
+export const getMenu = async (req, res) => {
   try {
     const database = new Database();
     await database.connect();
-    const data = await User.find();
+    const data = await Menu.find();
     await database.disconnect();
     if (data.length) return res.status(200).json(data);
     return res.status(204).send();
@@ -28,40 +27,32 @@ export const getAllUser = async (req, res) => {
   }
 };
 
-export const updateOneUser = async (req, res) => {
+export const updateDish = async (req, res) => {
   try {
     const database = new Database();
     await database.connect();
     let item = req.body.items[0];
     item = Object.assign(item, req.body);
-    const updatedUser = await item.save();
+    const updatedDish = await item.save();
     await database.disconnect();
-    res.json(updatedUser);
+    res.json(updatedDish);
   } catch (error) {
     res.status(500).json(error);
   }
 };
 
-export const getUser = async (req, res) => {
+export const deleteDish = async (req, res) => {
   try {
-    res.json(req.body.items[0]);
-  } catch (error) {
-    res.status(500).json(error);
-  }
-};
-
-export const changeRole = async (req, res) => {
-  try {
+    const { id } = req.params;
     const database = new Database();
     await database.connect();
-    let user = req.body.user[0];
-    user = user.admin
-      ? Object.assign(user, { admin: false })
-      : Object.assign(user, { admin: true });
-    const updatedUser = await user.save();
+    const deletedDish = await Menu.findByIdAndRemove(id);
     await database.disconnect();
-    res.json(updatedUser);
+    if (!deletedDish.length)
+      return res.status(204).json({ message: "Dish not found" });
+    res.status(200).json(deletedDish);
   } catch (error) {
+    console.log(error);
     res.status(500).json(error);
   }
 };
