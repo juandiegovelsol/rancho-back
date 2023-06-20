@@ -24,6 +24,12 @@ const OrderSchema = new Schema({
     type: Number,
     require: true,
   },
+  status: {
+    type: String,
+    require: true,
+    enum: ["Pendiente", "Pagado"],
+    default: "Pendiente",
+  },
 });
 
 const Order = mongoose.model("Order", OrderSchema);
