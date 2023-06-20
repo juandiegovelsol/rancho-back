@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import UserRoute from "./routes/user.route.js";
 import MenuRoute from "./routes/menu.route.js";
+import OrderRoute from "./routes/order.route.js";
 import "dotenv/config";
 
 const PORT = process.env.PORT;
@@ -16,6 +17,7 @@ app.get("/", (req, res) => {
 
 app.use("/user", UserRoute);
 app.use("/menu", MenuRoute);
+app.use("/order", OrderRoute);
 
 app.listen(PORT, () => {
   console.log(`Initialized asessment server on port ${PORT}...`);
