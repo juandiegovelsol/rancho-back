@@ -1,6 +1,7 @@
 import express from "express";
 import {
   createOrder,
+  deleteOrder,
   getAllOrders,
   getOneOrder,
   getUserOrders,
@@ -23,4 +24,5 @@ router.get(
 router.get("/order/:key/:value", findOrder, getOneOrder);
 router.get("/user/:key/:value", findUser, isLogged, getAllOrder, getUserOrders);
 router.put("/:key/:value", findOrder, updateOrder);
+router.delete("/:id", deleteOrder);
 export default router;

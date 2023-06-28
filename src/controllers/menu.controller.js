@@ -48,7 +48,7 @@ export const deleteDish = async (req, res) => {
     await database.connect();
     const deletedDish = await Menu.findByIdAndRemove(id);
     await database.disconnect();
-    if (!deletedDish.length)
+    if (!Object.keys(deletedDish).length)
       return res.status(204).json({ message: "Dish not found" });
     res.status(200).json(deletedDish);
   } catch (error) {

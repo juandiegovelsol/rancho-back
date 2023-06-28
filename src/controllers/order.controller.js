@@ -45,7 +45,10 @@ export const getUserOrders = async (req, res) => {
       }
     });
     res.status(200).json(userOrders);
-  } catch (error) {}
+  } catch (error) {
+    console.log(error);
+    res.status(500).json(error);
+  }
 };
 
 export const updateOrder = async (req, res) => {
@@ -58,6 +61,22 @@ export const updateOrder = async (req, res) => {
     await database.disconnect();
     res.json(updatedOrder);
   } catch (error) {
+    res.status(500).json(error);
+  }
+};
+
+export const deleteOrder = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const database = new Database();
+    await database.connect();
+    const deletedDish = await Order.findByIdAndRemove(id);
+    await database.disconnect();
+    /* if (!deletedDish.length)
+      return res.status(204).json({ message: "Order not found" }); */
+    res.status(200).json(deletedDish);
+  } catch (error) {
+    console.log(error);
     res.status(500).json(error);
   }
 };

@@ -15,7 +15,7 @@ import {
 const router = express.Router();
 
 router.get("/admin/:key/:value", findUser, isAdmin, isLogged, getAllUser);
-router.get("/:key/:value", findUser, isLogged, getUser);
+router.get("/:key/:value", findUser, getUser);
 router.post("/", createUser);
 router.put("/:key/:value", findUser, updateOneUser);
 router.put(

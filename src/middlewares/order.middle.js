@@ -34,11 +34,12 @@ export const getAllOrder = async (req, res, next) => {
     const orders = await Order.find()
       .populate({
         path: "user_id",
-        select: "name",
+        select: "name lastname email",
       })
       .populate({
         path: "order",
-        populate: [{ path: "id", select: "title" }],
+        select: "quantity total -_id",
+        populate: [{ path: "id", select: "title price -_id" }],
       })
       .exec();
     await database.disconnect();
